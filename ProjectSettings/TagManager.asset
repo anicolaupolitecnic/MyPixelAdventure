@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags:
   - Collectible
   - Trap
@@ -10,6 +10,7 @@ TagManager:
   - GameManager
   - Enemy
   - Death
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -20,9 +21,9 @@ TagManager:
   - Background
   - Ground
   - Player
-  - 
-  - 
-  - 
+  - Death
+  - Bullet
+  - Enemy
   - 
   - 
   - 
@@ -53,6 +54,14 @@ TagManager:
   - name: Terrain
     uniqueID: 295101207
     locked: 0
+  - name: Environment
+    uniqueID: 1087406135
+    locked: 0
   - name: Player
     uniqueID: 157191917
     locked: 0
+  - name: Foreground
+    uniqueID: 1228931789
+    locked: 0
+  m_RenderingLayers:
+  - Default
