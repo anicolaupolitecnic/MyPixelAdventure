@@ -65,8 +65,8 @@
     <Compile Include="Assets\Free 2D Cartoon Parallax Background\Demo\Script\BackgroundControl_0.cs" />
     <Compile Include="Assets\Proves2D\Scripts\PlayerMng.cs" />
     <Compile Include="Assets\Proves2D\Scripts\GameManagerProves2D.cs" />
+    <Compile Include="Assets\Proves2D\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\BackgroundMainMenu.cs" />
-    <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CollectibleManager.cs" />
     <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Proves2D\Scripts\PlayerManagerProves2D.cs" />

@@ -71,7 +71,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
 
     private void Shoot()
     {
-        Vector3 pos = new Vector3(this.transform.position.x + (Input.GetAxisRaw("Horizontal") * (this.GetComponent<Renderer>().bounds.size.x / 16)), this.transform.position.y - this.GetComponent<Renderer>().bounds.size.y / 4, this.transform.position.z);
+        Vector3 pos = new Vector3(this.transform.position.x + (facingDirection * (this.GetComponent<Renderer>().bounds.size.x/16)), this.transform.position.y - this.GetComponent<Renderer>().bounds.size.y / 4, this.transform.position.z);
         projectile = Instantiate(projectilePrefab, pos, this.transform.rotation);
     }
 
@@ -81,13 +81,18 @@ public class PlayerManagerProves2D : MonoBehaviour {
     }
 
     void UpdateAnimator() {
-        if (dirX > 0f) {
+        if (dirX > 0f)
+        {
             anim.SetBool("Run", true);
             transform.localScale = new Vector3(1, 1, 1);
-        } else if (dirX < 0f){
+        }
+        else if (dirX < 0f)
+        {
             anim.SetBool("Run", true);
             transform.localScale = new Vector3(-1, 1, 1);
-        } else {
+        }
+        else
+        {
             anim.SetBool("Run", false);
         }
 
