@@ -58,30 +58,33 @@ public class PlayerManagerProves2D : MonoBehaviour {
                 facingDirection = dirX;
 
             //GetAxis
-            rb.linearVelocity = new Vector2(dirX * speed, rb.linearVelocity.y);
+            if (!isDead)
+                rb.linearVelocity = new Vector2(dirX * speed, rb.linearVelocity.y);
         }
     }
 
     public void Jump()
     {
-        if (IsGrounded())
+        if (IsGrounded() && !isDead)
         {
-            GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0, jumpSpeed);
+            rb.linearVelocity = new Vector2(0, jumpSpeed);
         }
     }
 
     public void Move(InputAction.CallbackContext callbackContent)
     {
-        if (callbackContent.performed)
-        {
-            isMoving = true;
-            dirX = callbackContent.ReadValue<Vector2>().x;
-        }
-        else
-        {
-            dirX = 0;
-            rb.linearVelocity *= dirX;
-            isMoving = false;
+        if (!isDead) { 
+            if (callbackContent.performed)
+            {
+                isMoving = true;
+                dirX = callbackContent.ReadValue<Vector2>().x;
+            }
+            else
+            {
+                dirX = 0;
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                isMoving = false;
+            }
         }
     }
 
