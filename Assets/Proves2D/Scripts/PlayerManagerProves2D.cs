@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerManagerProves2D : MonoBehaviour {
@@ -18,8 +19,10 @@ public class PlayerManagerProves2D : MonoBehaviour {
     private GameObject projectile;
     [SerializeField] private GameObject projectilePrefab;
 
-    private float dirX = 1;
-    public float facingDirection;
+    private PlayerInput playerInput;
+    private bool isMoving = false;
+    private float dirX = 0;
+    public float facingDirection = 1;
 
     private int lifes;
     private bool isDead;
@@ -27,6 +30,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
 
     void Start() {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerProves2D>();
+        playerInput = gameManager.GetComponent<PlayerInput>();
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -54,30 +58,45 @@ public class PlayerManagerProves2D : MonoBehaviour {
                 facingDirection = dirX;
 
             //GetAxis
-            dirX = Input.GetAxisRaw("Horizontal");
             rb.linearVelocity = new Vector2(dirX * speed, rb.linearVelocity.y);
-            
-            if (Input.GetKeyDown("w") && IsGrounded()) {
-                GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0,jumpSpeed);
-            }
-
-            if (Input.GetKeyDown("space") /*&& IsGrounded()*/)
-            {
-                MakeAnAttack();
-                Shoot();
-            }
         }
     }
 
-    private void Shoot()
+    public void Jump()
     {
-        Vector3 pos = new Vector3(this.transform.position.x + (facingDirection * (this.GetComponent<Renderer>().bounds.size.x/16)), this.transform.position.y - this.GetComponent<Renderer>().bounds.size.y / 4, this.transform.position.z);
-        projectile = Instantiate(projectilePrefab, pos, this.transform.rotation);
+        if (IsGrounded())
+        {
+            GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0, jumpSpeed);
+        }
     }
 
-    private void MakeAnAttack()
+    public void Move(InputAction.CallbackContext callbackContent)
+    {
+        if (callbackContent.performed)
+        {
+            isMoving = true;
+            dirX = callbackContent.ReadValue<Vector2>().x;
+        }
+        else
+        {
+            dirX = 0;
+            rb.linearVelocity *= dirX;
+            isMoving = false;
+        }
+    }
+
+    public void Attack()
     {
         anim.SetTrigger("Attack");
+    }
+
+    public void ThrowBomb(InputAction.CallbackContext callbackContent)
+    {
+        if (callbackContent.performed)
+        {
+            Vector3 pos = new Vector3(this.transform.position.x + (facingDirection * (this.GetComponent<Renderer>().bounds.size.x / 16)), this.transform.position.y - this.GetComponent<Renderer>().bounds.size.y / 4, this.transform.position.z);
+            projectile = Instantiate(projectilePrefab, pos, this.transform.rotation);
+        }
     }
 
     void UpdateAnimator() {
@@ -141,7 +160,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
     }
 
     void RestartLevel() {
-        SceneManager.LoadScene("Environment");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void GameOver() {
