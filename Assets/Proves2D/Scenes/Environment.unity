@@ -119,83 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &19040744
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 19040747}
-  - component: {fileID: 19040746}
-  - component: {fileID: 19040745}
-  m_Layer: 0
-  m_Name: ParallaxManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &19040745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19040744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f78d6bc8b9882e04e93c862c3a1be9ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Layer_Sprites:
-  - {fileID: 21300000, guid: c923db515dd60ec4e9cd1f350be245a9, type: 3}
-  - {fileID: 21300000, guid: 442d8366ad5d42f46acfc9133b342c22, type: 3}
-  - {fileID: 21300000, guid: b670707b2788d99448bbb478fc248530, type: 3}
-  - {fileID: 21300000, guid: b5b8e73cc720ab446a25f00fc5ae7dc6, type: 3}
-  - {fileID: 21300000, guid: 01c1e211013f19a479f0e2c12fea10a2, type: 3}
---- !u!114 &19040746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19040744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e906c6017d501f947b0832dd4e87e66e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Camera_Move: 1
-  Camera_MoveSpeed: 3
-  Layer_Speed:
-  - 1
-  - 0.9
-  - 0.7
-  - 0.5
-  - 0.3
-  Layer_Objects:
-  - {fileID: 467946480}
-  - {fileID: 2120181086}
-  - {fileID: 635958794}
-  - {fileID: 1371508593}
-  - {fileID: 239795865}
---- !u!4 &19040747
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19040744}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &53498157
 GameObject:
   m_ObjectHideFlags: 0
@@ -3628,6 +3551,7 @@ GameObject:
   - component: {fileID: 1953816123}
   - component: {fileID: 1953816124}
   - component: {fileID: 1953816125}
+  - component: {fileID: 1953816126}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -3819,6 +3743,100 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.81620765, y: 1.8019319}
   m_EdgeRadius: 0
+--- !u!114 &1953816126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953816117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 4e1a6bfdf008e0c4e8ad515e07e3188b, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1953816124}
+        m_TargetAssemblyTypeName: PlayerManagerProves2D, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a69b9d86-65aa-4698-a3e6-ab621822a55d
+    m_ActionName: 'Player/Jump[/Keyboard/w,/Keyboard/upArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1953816124}
+        m_TargetAssemblyTypeName: PlayerManagerProves2D, Assembly-CSharp
+        m_MethodName: Attack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f1480445-9320-484c-8150-00f1ffb9dd38
+    m_ActionName: 'Player/Attack[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1953816124}
+        m_TargetAssemblyTypeName: PlayerManagerProves2D, Assembly-CSharp
+        m_MethodName: ThrowBomb
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e28895d1-e9c6-425b-b3bf-2660687bcc04
+    m_ActionName: Player/ThrowBomb
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1953816124}
+        m_TargetAssemblyTypeName: PlayerManagerProves2D, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 28ec580b-5335-435a-b0d9-9ead38c65625
+    m_ActionName: Player/Move
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1980720283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4021,7 +4039,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 19040747}
   - {fileID: 1006208746}
   - {fileID: 1911771304}
   - {fileID: 1759180781}

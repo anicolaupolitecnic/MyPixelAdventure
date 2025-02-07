@@ -8,5 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Proves2D/Scenes/ARScene.unity
     guid: 17d3ba12c95c01440b0cb6e338771bf2
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: b906aeea142be954ab52a470629ccccd, type: 3}
   m_UseUCBPForAssetBundles: 0

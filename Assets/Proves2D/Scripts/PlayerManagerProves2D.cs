@@ -22,7 +22,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
     private PlayerInput playerInput;
     private bool isMoving = false;
     private float dirX = 0;
-    public float facingDirection = 1;
+    [HideInInspector] public float facingDirection = 1;
 
     private int lifes;
     private bool isDead;
