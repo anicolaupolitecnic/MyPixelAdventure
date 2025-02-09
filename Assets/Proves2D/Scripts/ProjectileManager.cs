@@ -1,38 +1,70 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
 {
-    public float speed;    // Speed of the projectile
+    public Vector2 throwForce = new Vector2(5f, 10f);
     public float lifetime; // Time before destruction
+    private float time;
+    private bool isExploding;
 
     private Rigidbody2D rb;
     private float dirX;
 
+    private Animator anim;
+
     void Start()
     {
+        isExploding = false; 
+        time = Time.time;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         if (rb == null)
         {
             Debug.LogError("Rigidbody2D is missing on the projectile.");
             return;
         }
+        transform.Rotate(0f, 30f, 0f);
 
         dirX = GameObject.Find("Player").GetComponent<PlayerManagerProves2D>().facingDirection;
-
+        throwForce = new Vector2(throwForce.x * dirX, throwForce.y);
         // Set the initial velocity
-        rb.linearVelocity = dirX * transform.right * speed; // Use 'right' for 2D movement
+        rb.AddForce(throwForce, ForceMode2D.Impulse); // Apply impulse force
 
         // Destroy the projectile after 'lifetime' seconds
         Destroy(gameObject, lifetime);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void Update()
     {
-        if (other.CompareTag("Enemy")) // Si choca con un enemigo
+        if (!isExploding)
+            if ((Time.time - time) > (lifetime - (lifetime/2)))
+                Boom();
+    }
+
+    private void Boom()
+    {
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        rb.gravityScale = 0f;
+        isExploding = true;
+        anim.Play("Boom");
+        this.GetComponent<CircleCollider2D>().radius *= 2f;
+        
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isExploding && collision.transform.tag == "Enemy") // Si choca con un enemigo
         {
-            Destroy(other.gameObject); // Destruir el enemigo
-            Destroy(gameObject); // Destruir el proyectil
+            Destroy(collision.gameObject); // Destruir el enemigo
         }
+    }
+
+    public void DestroyIt()
+    {
+        Destroy(gameObject); // Destruir el proyectil
     }
 }

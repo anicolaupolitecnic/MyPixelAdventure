@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerManagerProves2D : MonoBehaviour {
     private GameManagerProves2D gameManager;
 
     private Animator anim;
     private Rigidbody2D rb;
-    private CircleCollider2D col;
 
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private float speed = 7f;
@@ -22,19 +22,25 @@ public class PlayerManagerProves2D : MonoBehaviour {
     private PlayerInput playerInput;
     private bool isMoving = false;
     private float dirX = 0;
-    [HideInInspector] public float facingDirection = 1;
+    [HideInInspector] public float facingDirection;
 
     private int lifes;
     private bool isDead;
     private bool isPlayerReady;
+    private bool isAttacking;
+
+    private void Awake()
+    {
+        facingDirection = 1;
+    }
 
     void Start() {
+        isAttacking = false;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerProves2D>();
         playerInput = gameManager.GetComponent<PlayerInput>();
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        col = GetComponent<CircleCollider2D>();
 
         Invoke("InitPlayer", 0.75f);
     }
@@ -88,10 +94,42 @@ public class PlayerManagerProves2D : MonoBehaviour {
         }
     }
 
+    public void MoveLeft()
+    {
+        isMoving = true;
+        dirX = -1;
+    }
+
+    public void MoveRight()
+    {
+        isMoving = true;
+        dirX = 1;
+    }
+
+    public void StopMoving()
+    {
+        dirX = 0;
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        isMoving = false;
+    }
+
+
+    public void Attack(InputAction.CallbackContext callbackContent)
+    {
+        if (callbackContent.performed)
+            MakeAnAttack();
+    }
     public void Attack()
     {
+        MakeAnAttack();
+    }
+
+    private void MakeAnAttack()
+    { 
+        isAttacking = true;
         anim.SetTrigger("Attack");
     }
+
 
     public void ThrowBomb(InputAction.CallbackContext callbackContent)
     {
@@ -100,6 +138,12 @@ public class PlayerManagerProves2D : MonoBehaviour {
             Vector3 pos = new Vector3(this.transform.position.x + (facingDirection * (this.GetComponent<Renderer>().bounds.size.x / 16)), this.transform.position.y - this.GetComponent<Renderer>().bounds.size.y / 4, this.transform.position.z);
             projectile = Instantiate(projectilePrefab, pos, this.transform.rotation);
         }
+    }
+
+    public void ThrowBomb()
+    {
+        Vector3 pos = new Vector3(this.transform.position.x + (facingDirection * (this.GetComponent<Renderer>().bounds.size.x / 16)), this.transform.position.y - this.GetComponent<Renderer>().bounds.size.y / 4, this.transform.position.z);
+        projectile = Instantiate(projectilePrefab, pos, this.transform.rotation);
     }
 
     void UpdateAnimator() {
@@ -173,23 +217,33 @@ public class PlayerManagerProves2D : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D c) {
         if (c.gameObject.CompareTag("Enemy"))
         {
-            Destroy(c.gameObject); // Destruir el enemigo
-            anim.SetTrigger("Die");
-            KillPlayer();
+            if (!isAttacking)
+            {
+                Destroy(c.gameObject); // Destruir el enemigo
+                anim.SetTrigger("Die");
+                KillPlayer();
+            } 
+            else
+            {
+                Destroy(c.gameObject); // Destruir el enemigo
+            }
+            
         }
-        
     }
 
-    void OnTriggerEnter2D(Collider2D c) {
-        if (c.gameObject.CompareTag("Trap") || c.gameObject.CompareTag("Death") || c.gameObject.CompareTag("Enemy"))
+    private void OnTriggerStay2D (Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            KillPlayer();
+            if (isAttacking)
+            {
+                Destroy(collision.gameObject); // Destruir el enemigo
+            }
         }
-        if (c.gameObject.CompareTag("Finish"))  {
-            isPlayerReady = false;
-            //sndManager.GetComponent<SoundManager>().PlayFX(2);
-            rb.bodyType = RigidbodyType2D.Static;
-            Invoke("CompleteLevel", 2f);
-        }
+    }
+
+    public void AttackIsOver()
+    {
+        isAttacking = false;
     }
 }
