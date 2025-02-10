@@ -37,7 +37,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
     void Start() {
         isAttacking = false;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerProves2D>();
-        hudManager = GameObject.Find("HUDManager").GetComponent<HUDManager>();
+        hudManager = GameObject.Find("Canvas").GetComponent<HUDManager>();
         
         playerInput = gameManager.GetComponent<PlayerInput>();
 
@@ -208,7 +208,10 @@ public class PlayerManagerProves2D : MonoBehaviour {
     }
 
     void RestartLevel() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        this.transform.position = gameManager.spawnPoint.position;
+        anim.SetBool("Die", false);
+        isDead = false;
+        isPlayerReady = true;
     }
 
     void GameOver() {
@@ -216,7 +219,8 @@ public class PlayerManagerProves2D : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void OnCollisionEnter2D(Collision2D c) {
+    void OnCollisionEnter2D(Collision2D c)
+    {
         if (c.gameObject.CompareTag("Enemy"))
         {
             if (!isAttacking)
@@ -224,12 +228,19 @@ public class PlayerManagerProves2D : MonoBehaviour {
                 Destroy(c.gameObject); // Destruir el enemigo
                 anim.SetTrigger("Die");
                 KillPlayer();
-            } 
+            }
             else
             {
                 Destroy(c.gameObject); // Destruir el enemigo
             }
-            
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Death"))
+        {
+            KillPlayer();
         }
     }
 
