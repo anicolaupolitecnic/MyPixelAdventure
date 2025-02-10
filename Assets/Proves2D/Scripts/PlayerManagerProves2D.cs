@@ -8,6 +8,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerManagerProves2D : MonoBehaviour {
     private GameManagerProves2D gameManager;
+    private HUDManager hudManager;
 
     private Animator anim;
     private Rigidbody2D rb;
@@ -24,7 +25,6 @@ public class PlayerManagerProves2D : MonoBehaviour {
     private float dirX = 0;
     [HideInInspector] public float facingDirection;
 
-    private int lifes;
     private bool isDead;
     private bool isPlayerReady;
     private bool isAttacking;
@@ -37,6 +37,8 @@ public class PlayerManagerProves2D : MonoBehaviour {
     void Start() {
         isAttacking = false;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerProves2D>();
+        hudManager = GameObject.Find("HUDManager").GetComponent<HUDManager>();
+        
         playerInput = gameManager.GetComponent<PlayerInput>();
 
         rb = GetComponent<Rigidbody2D>();
@@ -46,7 +48,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
     }
 
     void InitPlayer() {
-        lifes = 3;
+        gameManager.numLives = 3;
         isDead = false;
         isPlayerReady = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -190,16 +192,15 @@ public class PlayerManagerProves2D : MonoBehaviour {
     void KillPlayer() {
         isDead = true;
         isPlayerReady = false;
-        lifes -= 1;
-        //anim.SetTrigger("Die");
-        //rb.bodyType = RigidbodyType2D.Static;
+        gameManager.numLives -= 1;
         
-        if (lifes>0) {
+        if (gameManager.numLives > 0) {
             Invoke("RestartLevel", 2f);
         } else {
             //TEXT GAMEOVER
             Invoke("GameOver", 2f);
         }
+        hudManager.UpdateHUD();
     }
 
     void CompleteLevel() {
@@ -212,6 +213,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
 
     void GameOver() {
         //gameManager.GetComponent<GameManager>().GameOver();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnCollisionEnter2D(Collision2D c) {
