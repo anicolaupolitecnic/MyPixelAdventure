@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Sprite rightIconReleased;
     [SerializeField] private GameObject leftButton;
     [SerializeField] private GameObject rightButton;
+    [SerializeField] private GameObject touchControls;
     private GameManagerProves2D gameManager;
 
     [SerializeField] private List<GameObject> lives;
@@ -17,6 +18,14 @@ public class HUDManager : MonoBehaviour
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerProves2D>();
+
+        #if UNITY_ANDROID
+        // Si estamos en Android, activamos los controles táctiles
+            touchControls.SetActive(true);
+        #else   
+            // Si no es Android, desactivamos los controles táctiles
+            touchControls.SetActive(false);
+        #endif
     }
 
     public void LeftPressedIcon()

@@ -1,14 +1,16 @@
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    private Animator anim;
     public Transform pointA;
     public Transform pointB;
     public Transform player;
     public float speed = 2f;
     public float detectionRange = 5f;
     public float lostSightTime = 2f;  // Tiempo antes de volver a patrullar
-    public float distanceDetection = 0.2f;
+    public float distanceDetection = 10f;
     public LayerMask playerLayer;
 
     private Transform target;
@@ -18,30 +20,33 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         target = pointA;
+        anim = GetComponent<Animator>();
+        anim.SetBool("Run", true);
+        FlipDirection();
     }
 
     void Update()
     {
-        if (DetectPlayer())
-        {
-            chasingPlayer = true;
-            lostSightTimer = 0f;  // Reiniciar el temporizador
-        }
-        else if (chasingPlayer)
-        {
-            lostSightTimer += Time.deltaTime;
-            if (lostSightTimer >= lostSightTime)
-            {
-                chasingPlayer = false;
-                target = GetClosestPatrolPoint(); // Volver a patrullar desde el punto más cercano
-            }
-        }
+        //if (DetectPlayer())
+        //{
+        //    chasingPlayer = true;
+        //    lostSightTimer = 0f;  // Reiniciar el temporizador
+        //}
+        //else if (chasingPlayer)
+        //{
+        //    lostSightTimer += Time.deltaTime;
+        //    if (lostSightTimer >= lostSightTime)
+        //    {
+        //        chasingPlayer = false;
+        //        target = GetClosestPatrolPoint(); // Volver a patrullar desde el punto más cercano
+        //    }
+        //}
 
-        if (chasingPlayer)
-        {
-            ChasePlayer();
-        }
-        else
+        //if (chasingPlayer)
+        //{
+        //    ChasePlayer();
+        //}
+        //else
         {
             Patrol();
         }
