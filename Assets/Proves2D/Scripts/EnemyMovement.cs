@@ -7,25 +7,28 @@ public class EnemyAI : MonoBehaviour
     public Transform pointA;
     public Transform pointB;
     public Transform player;
-    public float speed = 2f;
-    public float detectionRange = 5f;
-    public float lostSightTime = 2f;  // Tiempo antes de volver a patrullar
-    public float distanceDetection = 10f;
+    public float speed;
+    public float detectionRange;
+    public float lostSightTime;  // Tiempo antes de volver a patrullar
+    public float distanceDetection;
     public LayerMask playerLayer;
 
     private Transform target;
     private bool chasingPlayer = false;
     private float lostSightTimer = 0f;
 
+    private Rigidbody2D rb;
+
     void Start()
     {
         target = pointA;
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         anim.SetBool("Run", true);
         FlipDirection();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //if (DetectPlayer())
         //{
@@ -38,7 +41,7 @@ public class EnemyAI : MonoBehaviour
         //    if (lostSightTimer >= lostSightTime)
         //    {
         //        chasingPlayer = false;
-        //        target = GetClosestPatrolPoint(); // Volver a patrullar desde el punto más cercano
+        //        target = GetClosestPatrolPoint(); // Volver a patrullar desde el punto mï¿½s cercano
         //    }
         //}
 
@@ -50,6 +53,16 @@ public class EnemyAI : MonoBehaviour
         {
             Patrol();
         }
+    }
+
+    public void KillMyself()
+    {
+        anim.SetBool("Die", true);
+    }
+
+    public void DestroyMyself()
+    {
+        Destroy(gameObject);
     }
 
     bool DetectPlayer()
@@ -69,13 +82,23 @@ public class EnemyAI : MonoBehaviour
 
     void Patrol()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        Vector2 direction = (target.position - transform.position).normalized;
+        rb.linearVelocity = direction * speed; // Move towards the target with velocity
 
-        if (Vector3.Distance(transform.position, target.position) < distanceDetection)
+        // Switch target when close enough
+        if (Vector2.Distance(transform.position, target.position) < distanceDetection)
         {
             target = target == pointA ? pointB : pointA;
             FlipDirection();
         }
+
+        //transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+
+        //if (Vector3.Distance(transform.position, target.position) < distanceDetection)
+        //{
+        //    target = target == pointA ? pointB : pointA;
+        //    FlipDirection();
+        //}
     }
 
     void ChasePlayer()
@@ -91,9 +114,12 @@ public class EnemyAI : MonoBehaviour
         return distanceToA < distanceToB ? pointA : pointB;
     }
 
+ 
     void FlipDirection()
     {
-        transform.Rotate(0, 180, 0);
+        Vector3 scale = transform.localScale;
+        scale.x *= -1; // Flip the character
+        transform.localScale = scale;
     }
 
     void OnDrawGizmos()

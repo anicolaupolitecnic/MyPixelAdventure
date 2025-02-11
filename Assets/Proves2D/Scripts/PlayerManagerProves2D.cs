@@ -190,10 +190,13 @@ public class PlayerManagerProves2D : MonoBehaviour {
     }
 
     void KillPlayer() {
+        dirX = 0f;
         isDead = true;
         isPlayerReady = false;
         gameManager.numLives -= 1;
-        
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = 0;
+
         if (gameManager.numLives > 0) {
             Invoke("RestartLevel", 2f);
         } else {
@@ -225,7 +228,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
         {
             if (!isAttacking)
             {
-                Destroy(c.gameObject); // Destruir el enemigo
+                //Destroy(c.gameObject); // Destruir el enemigo
                 anim.SetTrigger("Die");
                 KillPlayer();
             }
@@ -240,7 +243,8 @@ public class PlayerManagerProves2D : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("Death"))
         {
-            KillPlayer();
+            if (!isDead)
+                KillPlayer();
         }
     }
 
@@ -250,7 +254,8 @@ public class PlayerManagerProves2D : MonoBehaviour {
         {
             if (isAttacking)
             {
-                Destroy(collision.gameObject); // Destruir el enemigo
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                collision.gameObject.GetComponent<EnemyAI>().KillMyself();
             }
         }
     }

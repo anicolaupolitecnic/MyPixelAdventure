@@ -79,7 +79,7 @@
                 {
                     "name": "",
                     "id": "f0a8bc48-eff9-4c6e-bb9c-634d6369b079",
-                    "path": "<HID::USB Gamepad >/button3",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -101,7 +101,7 @@
                 {
                     "name": "",
                     "id": "9b6c1538-e82f-44e7-bdaf-d8061202362c",
-                    "path": "<HID::USB Gamepad >/button4",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -116,6 +116,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";keyboard",
+                    "action": "ThrowBomb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68228cc1-086a-402e-84fc-b9604df374d5",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "ThrowBomb",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -156,7 +167,7 @@
                 {
                     "name": "left",
                     "id": "2ac2420f-c0df-4bce-bc3c-932f8700773c",
-                    "path": "<Joystick>/stick/left",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -189,7 +200,7 @@
                 {
                     "name": "right",
                     "id": "524c92f3-f248-499e-9ade-c27c374a92cb",
-                    "path": "<Joystick>/stick/right",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
