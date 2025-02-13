@@ -111,7 +111,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
     public void StopMoving()
     {
         dirX = 0;
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(dirX, rb.linearVelocity.y);
         isMoving = false;
     }
 
@@ -212,6 +212,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
 
     void RestartLevel() {
         this.transform.position = gameManager.spawnPoint.position;
+        Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z);
         anim.SetBool("Die", false);
         isDead = false;
         isPlayerReady = true;
