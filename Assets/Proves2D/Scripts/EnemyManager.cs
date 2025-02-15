@@ -1,7 +1,6 @@
-using UnityEditor.Animations;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
     private Animator anim;
     public Transform pointA;
@@ -30,29 +29,7 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        //if (DetectPlayer())
-        //{
-        //    chasingPlayer = true;
-        //    lostSightTimer = 0f;  // Reiniciar el temporizador
-        //}
-        //else if (chasingPlayer)
-        //{
-        //    lostSightTimer += Time.deltaTime;
-        //    if (lostSightTimer >= lostSightTime)
-        //    {
-        //        chasingPlayer = false;
-        //        target = GetClosestPatrolPoint(); // Volver a patrullar desde el punto m�s cercano
-        //    }
-        //}
-
-        //if (chasingPlayer)
-        //{
-        //    ChasePlayer();
-        //}
-        //else
-        {
-            Patrol();
-        }
+        Patrol();
     }
 
     public void KillMyself()
@@ -91,14 +68,6 @@ public class EnemyAI : MonoBehaviour
             target = target == pointA ? pointB : pointA;
             FlipDirection();
         }
-
-        //transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-
-        //if (Vector3.Distance(transform.position, target.position) < distanceDetection)
-        //{
-        //    target = target == pointA ? pointB : pointA;
-        //    FlipDirection();
-        //}
     }
 
     void ChasePlayer()
@@ -114,7 +83,7 @@ public class EnemyAI : MonoBehaviour
         return distanceToA < distanceToB ? pointA : pointB;
     }
 
- 
+
     void FlipDirection()
     {
         Vector3 scale = transform.localScale;

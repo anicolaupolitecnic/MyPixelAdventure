@@ -65,7 +65,6 @@
     <Compile Include="Assets\CRT-Free\Scripts\CRTDemoBehaviour.cs" />
     <Compile Include="Assets\CRT-Free\Scripts\CRTDataObject.cs" />
     <Compile Include="Assets\Proves2D\Scripts\PlayerMng.cs" />
-    <Compile Include="Assets\Proves2D\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\BackgroundMainMenu.cs" />
     <Compile Include="Assets\Proves2D\Scripts\PlayerManagerProves2D.cs" />
     <Compile Include="Assets\Scripts\EnemyType1Follower.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="Assets\Proves2D\Scripts\CameraControllerProves2D.cs" />
     <Compile Include="Assets\Scripts\OptionsMenuManager.cs" />
     <Compile Include="Assets\CRT-Free\Scripts\CRTCameraBehaviour.cs" />
+    <Compile Include="Assets\Proves2D\Scripts\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\WaypointFollower.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Proves2D\Scripts\PlayerFollower.cs" />

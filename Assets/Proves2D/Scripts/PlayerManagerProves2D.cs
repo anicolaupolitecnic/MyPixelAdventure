@@ -177,16 +177,8 @@ public class PlayerManagerProves2D : MonoBehaviour {
     }
 
     bool IsGrounded() {
-        //return (rb.linearVelocityY == 0f)?true:false;
-        
-        if (rb.linearVelocity.y == 0f) 
-        {
-            return true;
-        } else {
-            return false;
-        }
-        
-        //return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        Collider2D col = GetComponent<Collider2D>();
+        return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
     void KillPlayer() {
@@ -256,7 +248,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
             if (isAttacking)
             {
                 collision.GetComponent<BoxCollider2D>().enabled = false;
-                collision.gameObject.GetComponent<EnemyAI>().KillMyself();
+                collision.gameObject.GetComponent<EnemyManager>().KillMyself();
             }
         }
     }

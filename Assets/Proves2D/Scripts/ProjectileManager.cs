@@ -51,15 +51,17 @@ public class ProjectileManager : MonoBehaviour
         rb.gravityScale = 0f;
         isExploding = true;
         anim.Play("Boom");
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        this.GetComponent<CircleCollider2D>().isTrigger = true;
         this.GetComponent<CircleCollider2D>().radius *= 2f;
         
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (isExploding && collision.transform.tag == "Enemy") // Si choca con un enemigo
+        if (isExploding && col.transform.tag == "Enemy") // Si choca con un enemigo
         {
-            Destroy(collision.gameObject); // Destruir el enemigo
+            Destroy(col.gameObject); // Destruir el enemigo
         }
     }
 
