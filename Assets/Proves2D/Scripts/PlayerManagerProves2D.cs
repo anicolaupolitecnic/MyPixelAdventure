@@ -37,7 +37,7 @@ public class PlayerManagerProves2D : MonoBehaviour {
     void Start() {
         isAttacking = false;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManagerProves2D>();
-        hudManager = GameObject.Find("Canvas").GetComponent<HUDManager>();
+        hudManager = GameObject.Find("HUD").GetComponent<HUDManager>();
         
         playerInput = gameManager.GetComponent<PlayerInput>();
 

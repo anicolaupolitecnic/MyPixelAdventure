@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\EnemyType1Follower.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Parallax.cs" />
+    <Compile Include="Assets\Proves2D\Scripts\ParallaxManager.cs" />
     <Compile Include="Assets\Scripts\LoadScene.cs" />
     <Compile Include="Assets\CRT-Free\Scripts\CRTRenderSettingsObject.cs" />
     <Compile Include="Assets\Proves2D\Scripts\GameManagerProves2D.cs" />
