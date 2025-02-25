@@ -7,6 +7,11 @@ public class CameraControllerProves2D : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Transform deadlyFloor;
 
+    private void Awake()
+    {
+        transform.position = new Vector3(player.position.x, player.position.y, this.transform.position.z);
+    }
+
     void Update()
     {
         if (this.transform.position.y > deadlyFloor.position.y)
