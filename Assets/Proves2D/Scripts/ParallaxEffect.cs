@@ -72,7 +72,6 @@ public class ParallaxEffect : MonoBehaviour
     {
         // Obtén el ancho de la pantalla en unidades del mundo
         float cameraWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-        Debug.Log("cameraWidth: " + cameraWidth);
         if (playerManager.facingDirection > 0)
         {
             for (int i = 0; i < backgrounds.Length; i++)
