@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour {
     public bool isLevelCompleted = false;
     public bool isGameCompleted = false;
 
-    [SerializeField] private GameObject mobileControlsCanvas;
-
+    [SerializeField] private GameObject mobileControlsPrefab;
+    private GameObject mobileControlsInstance;
 
     [Header("Configuració d'escenes")]
     [Tooltip("Noms exactes de les escenes que usen la música de menú")]
@@ -50,6 +50,17 @@ public class GameManager : MonoBehaviour {
         UpdateMobileControls();
     }
 
+    private bool IsMobile()
+    {
+    #if UNITY_EDITOR
+            // Simula mòbil a l'editor activant això manualment
+            return false; // ← canvia a false/true per testejar
+    #elif UNITY_ANDROID || UNITY_IOS
+            return true;
+    #else
+            return false;
+    #endif
+    }
 
     // Llámalo también al cargar cada escena
     private void OnEnable()
@@ -69,12 +80,28 @@ public class GameManager : MonoBehaviour {
 
     private void UpdateMobileControls()
     {
-        if (mobileControlsCanvas == null) return;
-
-        bool isMobile = Application.isMobilePlatform;
+        bool isMobile = IsMobile(); // ← canviat
         bool isGameScene = IsGameScene(SceneManager.GetActiveScene().name);
 
-        mobileControlsCanvas.SetActive(isMobile && isGameScene);
+        if (isMobile && isGameScene)
+        {
+            if (mobileControlsInstance == null)
+            {
+                Canvas sceneCanvas = FindFirstObjectByType<Canvas>();
+                if (sceneCanvas != null)
+                {
+                    mobileControlsInstance = Instantiate(mobileControlsPrefab, sceneCanvas.transform);
+                }
+            }
+        }
+        else
+        {
+            if (mobileControlsInstance != null)
+            {
+                Destroy(mobileControlsInstance);
+                mobileControlsInstance = null;
+            }
+        }
     }
 
     private bool IsGameScene(string sceneName)

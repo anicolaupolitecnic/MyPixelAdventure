@@ -49,7 +49,7 @@ MonoBehaviour:
   isLevelRestarted: 0
   isLevelCompleted: 0
   isGameCompleted: 0
-  mobileControlsCanvas: {fileID: 0}
+  mobileControlsPrefab: {fileID: 1716040495498416695, guid: d80548d3907858745902c2df512581d7, type: 3}
   menuSceneNames:
   - MainMenu
   - OptionsMenu
