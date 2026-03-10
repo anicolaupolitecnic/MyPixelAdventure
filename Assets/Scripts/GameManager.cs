@@ -1,28 +1,120 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-    private GameObject sndManager;
+    public static GameManager Instance { get; private set; }
+
+    [Header("Prefabs")]
+    [SerializeField] private GameObject soundManagerPrefab;
+    public SoundManager Sound { get; private set; }
+
     //LEVEL STATES
     public bool isGameOver = false;
     public bool isLevelRestarted = false;
     public bool isLevelCompleted = false;
     public bool isGameCompleted = false;
 
-    void Start()  {
-        //SOUNDMANAGER
+    [SerializeField] private GameObject mobileControlsCanvas;
+
+
+    [Header("Configuració d'escenes")]
+    [Tooltip("Noms exactes de les escenes que usen la música de menú")]
+    public string[] menuSceneNames = { "Menu", "MainMenu" };
+    [Tooltip("Noms exactes de les escenes que usen la música de joc")]
+    public string[] gameSceneNames = { "Game", "Level1", "Level2" };
+
+    private void Awake()
+    {
+        // ── Singleton GameManager ─────────────────────────────────────
+        // Comprova si ja existeix un GameManager a l'escena (per exemple,
+        // si s'ha col·locat manualment a més d'una escena)
+        if (Instance != null && Instance != this)
+        {
+            Debug.Log("[GameManager] Duplicat detectat, destruint.");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // ── Inicialitzar subsistemes ──────────────────────────────────
         InitSoundManager();
     }
 
-    void InitSoundManager() {
-        sndManager = GameObject.FindGameObjectWithTag("SoundManager");
-        sndManager.GetComponent<SoundManager>().SetMusicVolume(PlayerPrefs.GetFloat("musicVolume"));
-        sndManager.GetComponent<SoundManager>().fxVolume = PlayerPrefs.GetFloat("fxVolume");
-        sndManager.GetComponent<SoundManager>().SetEnableMusic(PlayerPrefs.GetInt("music")==1?true:false);
-        sndManager.GetComponent<SoundManager>().isFXEnabled = PlayerPrefs.GetInt("fx")==1?true:false;
-        sndManager.GetComponent<SoundManager>().PlayMusic(0);
+    void Start()  {
+        //SOUNDMANAGER
+        InitSoundManager();
+        UpdateMobileControls();
+    }
+
+
+    // Llámalo también al cargar cada escena
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        UpdateMobileControls();
+    }
+
+    private void UpdateMobileControls()
+    {
+        if (mobileControlsCanvas == null) return;
+
+        bool isMobile = Application.isMobilePlatform;
+        bool isGameScene = IsGameScene(SceneManager.GetActiveScene().name);
+
+        mobileControlsCanvas.SetActive(isMobile && isGameScene);
+    }
+
+    private bool IsGameScene(string sceneName)
+    {
+        foreach (string name in gameSceneNames)
+        {
+            if (name == sceneName) return true;
+        }
+        return false;
+    }
+
+    private void InitSoundManager()
+    {
+        // Comprova si ja n'hi ha un a l'escena (qualsevol escena carregada)
+        Sound = FindFirstObjectByType<SoundManager>();
+
+        if (Sound != null)
+        {
+            Debug.Log("[GameManager] SoundManager ja existeix a l'escena, no s'instancia de nou.");
+            return;
+        }
+
+        // No n'hi ha cap → instanciar des del prefab
+        if (soundManagerPrefab == null)
+        {
+            Debug.LogError("[GameManager] soundManagerPrefab no assignat al Inspector!");
+            return;
+        }
+
+        GameObject go = Instantiate(soundManagerPrefab);
+        go.name = "SoundManager";
+        Sound = go.GetComponent<SoundManager>();
+
+        if (Sound == null)
+        {
+            Debug.LogError("[GameManager] El prefab SoundManager no té el component SoundManager!");
+            return;
+        }
+
+        Debug.Log("[GameManager] SoundManager instanciat correctament.");
     }
 
     void Reset() {

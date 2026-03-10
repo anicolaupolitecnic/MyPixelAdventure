@@ -38,6 +38,10 @@ public class PlayerManager : MonoBehaviour {
     }
 
     void Update() {
+        // Teclado actualiza dirX directamente
+        float keyboardInput = Input.GetAxisRaw("Horizontal");
+        if (keyboardInput != 0) dirX = keyboardInput;
+
         UpdateMovement();
         UpdateAnimator();
 
@@ -48,20 +52,51 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
-    void UpdateMovement() {
-        if (isPlayerReady) {
-            //GetAxis
-            dirX = Input.GetAxisRaw("Horizontal");
-            rb.linearVelocity = new Vector2(dirX * speed, rb.linearVelocity.y);
-            
-            if (Input.GetKeyDown("space") && IsGrounded()) {
-                sndManager.GetComponent<SoundManager>().PlayFX(0);
-                GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0,jumpSpeed);
-            }
+    public void MoveLeft()
+    {
+        if (isPlayerReady)
+        {
+            dirX = -1;
+            UpdateMovement();
+        }
+    }
 
-            /*if ((transform.position.y < -12f) && !isDead){
-                KillPlayer();
-            }*/
+    public void MoveRight()
+    {
+
+        if (isPlayerReady)
+        {
+            dirX = 1;
+            UpdateMovement();
+        }
+    }
+
+    public void StopMoving()
+    {
+        Debug.Log("STOP");
+
+        dirX = 0;
+    }
+
+    public void Jump()
+    {
+        if (IsGrounded())
+        {
+            sndManager.GetComponent<SoundManager>().PlayFX(0);
+            GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0, jumpSpeed);
+        }
+    }
+
+    void UpdateMovement() {
+        if (isPlayerReady)
+        {
+            rb.linearVelocity = new Vector2(dirX * speed, rb.linearVelocity.y);
+
+            if (Input.GetKeyDown("space") && IsGrounded())
+            {
+                sndManager.GetComponent<SoundManager>().PlayFX(0);
+                rb.linearVelocity = new Vector2(0, jumpSpeed);
+            }
         }
     }
 
@@ -89,15 +124,6 @@ public class PlayerManager : MonoBehaviour {
     }
 
     bool IsGrounded() {
-        //return (rb.velocity.y == 0f)?true:false;
-        /*
-        if (rb.velocity.y == 0f) 
-        {
-            return true;
-        } else {
-            return false;
-        }
-        */
         return Physics2D.BoxCast(col.bounds.center, col.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 

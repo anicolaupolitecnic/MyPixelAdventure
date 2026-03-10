@@ -1,107 +1,131 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class SoundManager : MonoBehaviour {
-	public bool isFXEnabled = true;
+public class SoundManager : MonoBehaviour
+{
+    public bool isFXEnabled = true;
     public bool isMusicEnabled = true;
-	public float musicVolume;
-	public float fxVolume;
+    public float musicVolume;
+    public float fxVolume;
+    public AudioSource EffectsSource;
+    public AudioSource MusicSource;
 
-	public AudioSource EffectsSource;
-	public AudioSource MusicSource;
+    public AudioClip menuMusic;
+    public AudioClip gameMusic;
+    public AudioClip jumpFX;
+    public AudioClip collectedFX;
+    public AudioClip finishedFX;
+    public AudioClip deadFX;
 
-	public AudioClip menuMusic;
-	public AudioClip gameMusic;
-	public AudioClip jumpFX;
-	public AudioClip collectedFX;
-	public AudioClip finishedFX;
-	public AudioClip deadFX;
+    public static SoundManager Instance = null;
 
-	public GameObject game;
+    private void Awake()
+    {
+        // Singleton + persistència
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
-	public static SoundManager Instance = null;
+        // Subscripció a canvis d'escena
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-	private GameObject gameManager;
-	
+    private void Start()
+    {
+        // Reproduir música de l'escena inicial
+        PlayMusicForScene(SceneManager.GetActiveScene().name);
+    }
 
-	void Start() {
-		gameManager = GameObject.Find("GameManager");
-	}
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-	// Play a single clip through the sound effects source.
-	public void Play(AudioClip clip) {
-		if (isFXEnabled) {
-			EffectsSource.clip = clip;
-			EffectsSource.Play();
-		}
-	}
+    // Cridat automàticament cada vegada que es carrega una escena nova
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayMusicForScene(scene.name);
+    }
 
-	// Play a single clip through the music source.
-	public void PlayMusic(AudioClip clip) {
-		if (isMusicEnabled) {
-			MusicSource.enabled = true;
-			MusicSource.loop = true;
-			MusicSource.clip = clip;
-			MusicSource.Play();
-		}
-	}
-	
-	public void PlayFX(int i) {
-		if (isFXEnabled) {
-			EffectsSource.enabled = true;
+    private void PlayMusicForScene(string sceneName)
+    {
+        if (System.Array.IndexOf(GameManager.Instance.menuSceneNames, sceneName) >= 0)
+            PlayMusic(menuMusic);
+        else if (System.Array.IndexOf(GameManager.Instance.gameSceneNames, sceneName) >= 0)
+            PlayMusic(gameMusic);
+        // Si l'escena no coincideix amb cap llista, silenci
+    }
 
-			if (i == 0) {
-				EffectsSource.clip = jumpFX;
-			} else if (i == 1) {
-				EffectsSource.clip = collectedFX;
-			} else if (i == 2) {
-				EffectsSource.clip = finishedFX;
-			} else if (i == 3) {
-				EffectsSource.clip = deadFX;
-			}
-			EffectsSource.Play();
-		}
-	}
+    // ── API pública (igual que l'original) ───────────────────────────
 
-	// Play a single clip through the music source.
-	public void PlayMusic(int i) {
-		if (isMusicEnabled) {
-			MusicSource.enabled = true;
-			MusicSource.loop = true;
-			if (i == 0) { 
-				MusicSource.clip = menuMusic;
-			} else if (i == 1) {
-				MusicSource.clip = gameMusic;
-			}
-			MusicSource.Play();
-		}
-	}
+    public void Play(AudioClip clip)
+    {
+        if (isFXEnabled)
+        {
+            EffectsSource.clip = clip;
+            EffectsSource.Play();
+        }
+    }
 
-	public void StopMusic() {
-		MusicSource.Stop();
-	}
+    public void PlayMusic(AudioClip clip)
+    {
+        if (!isMusicEnabled || clip == null) return;
+        if (MusicSource.clip == clip && MusicSource.isPlaying) return; // ja sona
+        MusicSource.enabled = true;
+        MusicSource.loop = true;
+        MusicSource.clip = clip;
+        MusicSource.volume = musicVolume;
+        MusicSource.Play();
+    }
 
-	public void SetMusicVolume(float f) {
-		musicVolume = f;
-		MusicSource.volume = f;
-	}
+    public void PlayFX(int i)
+    {
+        if (!isFXEnabled) return;
+        EffectsSource.enabled = true;
+        EffectsSource.clip = i switch
+        {
+            0 => jumpFX,
+            1 => collectedFX,
+            2 => finishedFX,
+            3 => deadFX,
+            _ => null
+        };
+        if (EffectsSource.clip != null) EffectsSource.Play();
+    }
 
-	public void SetFXVolume(float f) {
-		fxVolume = f;
-		EffectsSource.volume = f;
-	}
+    public void PlayMusic(int i)
+    {
+        PlayMusic(i == 0 ? menuMusic : gameMusic);
+    }
 
-	public void SetEnableFX(bool b) {
-		isFXEnabled = b;
-		if (b) PlayFX(0);
-	}
+    public void StopMusic() => MusicSource.Stop();
 
-	public void SetEnableMusic(bool b) {
-		isMusicEnabled = b;
-		if (!b) 
-			StopMusic();
-		else
-			PlayMusic(0);
-	}
+    public void SetMusicVolume(float f)
+    {
+        musicVolume = f;
+        MusicSource.volume = f;
+    }
+
+    public void SetFXVolume(float f)
+    {
+        fxVolume = f;
+        EffectsSource.volume = f;
+    }
+
+    public void SetEnableFX(bool b)
+    {
+        isFXEnabled = b;
+        if (b) PlayFX(0);
+    }
+
+    public void SetEnableMusic(bool b)
+    {
+        isMusicEnabled = b;
+        if (!b) StopMusic();
+        else PlayMusicForScene(SceneManager.GetActiveScene().name);
+    }
 }
