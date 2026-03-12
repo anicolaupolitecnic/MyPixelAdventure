@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private float speed = 7f;
     [SerializeField] private float jumpSpeed = 7f;
     private float dirX;
+    private float keyboardDirX = 0f;
+    private float touchDirX = 0f;
 
     private int lifes;
     private bool isDead;
@@ -37,16 +39,20 @@ public class PlayerManager : MonoBehaviour {
         isPlayerReady = true;
     }
 
-    void Update() {
-        // Teclado actualiza dirX directamente
-        float keyboardInput = Input.GetAxisRaw("Horizontal");
-        if (keyboardInput != 0) dirX = keyboardInput;
+    void Update()
+    {
+        // Teclat: només actualitza la seva pròpia variable
+        keyboardDirX = Input.GetAxisRaw("Horizontal");
+
+        // Combina: el teclat té prioritat; si no hi ha teclat, usa el tàctil
+        dirX = keyboardDirX != 0 ? keyboardDirX : touchDirX;
 
         UpdateMovement();
         UpdateAnimator();
 
-        //HACK!
-        if (Input.GetKeyDown(KeyCode.P)){
+        // HACK
+        if (Input.GetKeyDown(KeyCode.P))
+        {
             rb.bodyType = RigidbodyType2D.Static;
             Invoke("CompleteLevel", 0.25f);
         }
@@ -54,28 +60,17 @@ public class PlayerManager : MonoBehaviour {
 
     public void MoveLeft()
     {
-        if (isPlayerReady)
-        {
-            dirX = -1;
-            UpdateMovement();
-        }
+        if (isPlayerReady) touchDirX = -1f;
     }
 
     public void MoveRight()
     {
-
-        if (isPlayerReady)
-        {
-            dirX = 1;
-            UpdateMovement();
-        }
+        if (isPlayerReady) touchDirX = 1f;
     }
 
     public void StopMoving()
     {
-        Debug.Log("STOP");
-
-        dirX = 0;
+        touchDirX = 0f;
     }
 
     public void Jump()
