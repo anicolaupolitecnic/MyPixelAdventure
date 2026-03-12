@@ -53228,6 +53228,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Touch
       objectReference: {fileID: 0}
+    - target: {fileID: 1716040495498416695, guid: d80548d3907858745902c2df512581d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3438236641573711774, guid: d80548d3907858745902c2df512581d7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -53347,15 +53351,15 @@ PrefabInstance:
       objectReference: {fileID: 510152648}
     - target: {fileID: 7492564185812664518, guid: 7ed0e6655e3b37b40bea7ccf99605748, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.7188225
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7492564185812664518, guid: 7ed0e6655e3b37b40bea7ccf99605748, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.382669
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7492564185812664518, guid: 7ed0e6655e3b37b40bea7ccf99605748, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.23315898
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7492564185812664518, guid: 7ed0e6655e3b37b40bea7ccf99605748, type: 3}
       propertyPath: m_LocalRotation.w

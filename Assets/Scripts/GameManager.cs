@@ -53,8 +53,7 @@ public class GameManager : MonoBehaviour {
     private bool IsMobile()
     {
     #if UNITY_EDITOR
-            // Simula mòbil a l'editor activant això manualment
-            return false; // ← canvia a false/true per testejar
+            return false; 
     #elif UNITY_ANDROID || UNITY_IOS
             return true;
     #else
