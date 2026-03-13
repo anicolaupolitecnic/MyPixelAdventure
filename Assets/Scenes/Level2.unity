@@ -2029,7 +2029,7 @@ MonoBehaviour:
     m_Bits: 128
   speed: 7
   jumpSpeed: 7
-  inputActions: {fileID: -944628639613478452, guid: 778eea7455948034fbbed86d9facf033, type: 3}
+  inputActions: {fileID: -944628639613478452, guid: 945f790cc7ae87541981c5227097437e, type: 3}
 --- !u!95 &1381522989
 Animator:
   serializedVersion: 7
