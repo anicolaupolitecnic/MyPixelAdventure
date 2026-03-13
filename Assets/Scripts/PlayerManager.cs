@@ -135,8 +135,23 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+<<<<<<< Updated upstream
     void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.CompareTag("Finish"))  {
+=======
+    void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.gameObject.CompareTag("Collectible"))
+        {
+            GameManager.Instance.CollectItem();
+            c.gameObject.GetComponent<Animator>().SetTrigger("collected");
+            sndManager.GetComponent<SoundManager>().PlayFX(1);
+            Destroy(c.gameObject);
+        }
+
+        if (c.gameObject.CompareTag("Finish"))
+        {
+>>>>>>> Stashed changes
             isPlayerReady = false;
             sndManager.GetComponent<SoundManager>().PlayFX(2);
             rb.bodyType = RigidbodyType2D.Static;

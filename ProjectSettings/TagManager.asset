@@ -10,6 +10,12 @@ TagManager:
   - GameManager
   - Enemy
   - Death
+<<<<<<< Updated upstream
+=======
+  - Bullet
+  - StartWP
+  - itemsTxt
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
