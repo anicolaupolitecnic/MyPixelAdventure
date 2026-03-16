@@ -152,17 +152,16 @@ public class PlayerManager : MonoBehaviour
     void GameOver() => gameManager.GetComponent<GameManager>().GameOver();
 
     // ── Col·lisions ──────────────────────────────────────────────────
-
-    void OnCollisionEnter2D(Collision2D c)
-    {
-        if (c.gameObject.CompareTag("Trap") ||
-            c.gameObject.CompareTag("Death") ||
-            c.gameObject.CompareTag("Enemy"))
-            KillPlayer();
-    }
-
     void OnTriggerEnter2D(Collider2D c)
     {
+        if (c.gameObject.CompareTag("Collectible"))
+        {
+            GameManager.Instance.CollectItem();
+            c.gameObject.GetComponent<Animator>().SetTrigger("collected");
+            sndManager.GetComponent<SoundManager>().PlayFX(1);
+            Destroy(c.gameObject);
+        }
+
         if (c.gameObject.CompareTag("Finish"))
         {
             isPlayerReady = false;
@@ -170,5 +169,13 @@ public class PlayerManager : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Static;
             Invoke("CompleteLevel", 2f);
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        if (c.gameObject.CompareTag("Trap") ||
+            c.gameObject.CompareTag("Death") ||
+            c.gameObject.CompareTag("Enemy"))
+            KillPlayer();
     }
 }

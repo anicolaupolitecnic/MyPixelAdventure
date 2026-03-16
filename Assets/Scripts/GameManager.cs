@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
     public static GameManager Instance { get; private set; }
+    private int items = 0;
+    private Text itemsText;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject soundManagerPrefab;
+    [SerializeField] private GameObject playerPrefab;
     public SoundManager Sound { get; private set; }
 
     //LEVEL STATES
@@ -24,13 +29,10 @@ public class GameManager : MonoBehaviour {
     [Tooltip("Noms exactes de les escenes que usen la música de menú")]
     public string[] menuSceneNames = { "Menu", "MainMenu" };
     [Tooltip("Noms exactes de les escenes que usen la música de joc")]
-    public string[] gameSceneNames = { "Game", "Level1", "Level2" };
+    public string[] gameSceneNames = { "Game", "Level1", "Level2", "Level3" };
 
     private void Awake()
     {
-        // ── Singleton GameManager ─────────────────────────────────────
-        // Comprova si ja existeix un GameManager a l'escena (per exemple,
-        // si s'ha col·locat manualment a més d'una escena)
         if (Instance != null && Instance != this)
         {
             Debug.Log("[GameManager] Duplicat detectat, destruint.");
@@ -40,28 +42,26 @@ public class GameManager : MonoBehaviour {
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // ── Inicialitzar subsistemes ──────────────────────────────────
         InitSoundManager();
     }
 
-    void Start()  {
-        //SOUNDMANAGER
+    void Start()
+    {
         InitSoundManager();
         UpdateMobileControls();
     }
 
     private bool IsMobile()
     {
-    #if UNITY_EDITOR
-            return false; 
-    #elif UNITY_ANDROID || UNITY_IOS
-            return true;
-    #else
-            return false;
-    #endif
+#if UNITY_EDITOR
+        return false;
+#elif UNITY_ANDROID || UNITY_IOS
+        return true;
+#else
+        return false;
+#endif
     }
 
-    // Llámalo también al cargar cada escena
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -75,11 +75,57 @@ public class GameManager : MonoBehaviour {
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateMobileControls();
+        FindItemsText();
+        SpawnPlayer();
     }
+
+    // ── Items Text ───────────────────────────────────────────────────
+
+    private void FindItemsText()
+    {
+        itemsText = null;
+        items = 0;
+
+        GameObject textObj = GameObject.FindGameObjectWithTag("ItemsText");
+        if (textObj != null)
+        {
+            itemsText = textObj.GetComponent<Text>();
+            itemsText.text = "Items: 0";
+        }
+        else
+        {
+            Debug.LogWarning("[GameManager] No s'ha trobat cap GameObject amb tag 'ItemsText'.");
+        }
+    }
+
+    // ── Player Spawn ─────────────────────────────────────────────────
+
+    private void SpawnPlayer()
+    {
+        if (!IsGameScene(SceneManager.GetActiveScene().name)) return;
+
+        if (playerPrefab == null)
+        {
+            Debug.LogError("[GameManager] playerPrefab no assignat al Inspector!");
+            return;
+        }
+
+        GameObject wp = GameObject.FindGameObjectWithTag("StartWP");
+        if (wp == null)
+        {
+            Debug.LogError("[GameManager] No s'ha trobat cap StartWaypoint a l'escena!");
+            return;
+        }
+
+        Instantiate(playerPrefab, wp.transform.position, wp.transform.rotation);
+        Debug.Log("[GameManager] Player instanciat a: " + wp.transform.position);
+    }
+
+    // ── Mobile Controls ──────────────────────────────────────────────
 
     private void UpdateMobileControls()
     {
-        bool isMobile = IsMobile(); // ← canviat
+        bool isMobile = IsMobile();
         bool isGameScene = IsGameScene(SceneManager.GetActiveScene().name);
 
         if (isMobile && isGameScene)
@@ -112,9 +158,10 @@ public class GameManager : MonoBehaviour {
         return false;
     }
 
+    // ── Sound Manager ────────────────────────────────────────────────
+
     private void InitSoundManager()
     {
-        // Comprova si ja n'hi ha un a l'escena (qualsevol escena carregada)
         Sound = FindFirstObjectByType<SoundManager>();
 
         if (Sound != null)
@@ -123,7 +170,6 @@ public class GameManager : MonoBehaviour {
             return;
         }
 
-        // No n'hi ha cap → instanciar des del prefab
         if (soundManagerPrefab == null)
         {
             Debug.LogError("[GameManager] soundManagerPrefab no assignat al Inspector!");
@@ -143,38 +189,62 @@ public class GameManager : MonoBehaviour {
         Debug.Log("[GameManager] SoundManager instanciat correctament.");
     }
 
-    void Reset() {
+    // ── Level States ─────────────────────────────────────────────────
+
+    void Reset()
+    {
         isGameOver = false;
         isLevelRestarted = false;
         isLevelCompleted = false;
         isGameCompleted = false;
+        items = 0;
+        if (itemsText != null) itemsText.text = "Items: 0";
     }
 
-    void OnGUI() {
-        if (isGameCompleted || isGameOver) {
+    void OnGUI()
+    {
+        if (isGameCompleted || isGameOver)
+        {
             GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button);
             myButtonStyle.fontSize = 30;
-            if ( GUI.Button(new Rect(Screen.width/2-Screen.width/8, Screen.height/2-Screen.height/8, Screen.width/4, Screen.height/4), isGameCompleted?"CONGRATULATIONS!!":"GAMEOVER!!", myButtonStyle)) {
+            if (GUI.Button(new Rect(Screen.width / 2 - Screen.width / 8, Screen.height / 2 - Screen.height / 8, Screen.width / 4, Screen.height / 4),
+                isGameCompleted ? "CONGRATULATIONS!!" : "GAMEOVER!!", myButtonStyle))
+            {
                 Reset();
                 SceneManager.LoadScene(1);
             }
         }
     }
 
-    public void GameOver() {
-        isGameOver = true; 
+    public void GameOver()
+    {
+        isGameOver = true;
         GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
     }
 
-    public void RestartLevel() {
+    public void RestartLevel()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void CompleteLevel() {
-        if (SceneManager.GetActiveScene().name == "Level3"){
+    public void CompleteLevel()
+    {
+        if (SceneManager.GetActiveScene().name == "Level3")
+        {
             isGameCompleted = true;
-        } else {
+        }
+        else
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+    }
+
+    // ── Items ────────────────────────────────────────────────────────
+
+    public void CollectItem()
+    {
+        items++;
+        if (itemsText != null) itemsText.text = "Items: " + items;
+        Debug.Log("[GameManager] Items recollits: " + items);
     }
 }

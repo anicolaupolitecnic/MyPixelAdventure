@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Death
   - Bullet
+  - StartWP
+  - ItemsText
   layers:
   - Default
   - TransparentFX
