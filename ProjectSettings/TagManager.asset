@@ -13,6 +13,7 @@ TagManager:
   - Bullet
   - StartWP
   - ItemsText
+  - Touch
   layers:
   - Default
   - TransparentFX

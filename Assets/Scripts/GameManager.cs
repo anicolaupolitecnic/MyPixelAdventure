@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject soundManagerPrefab;
     [SerializeField] private GameObject playerPrefab;
+    private GameObject player;
     public SoundManager Sound { get; private set; }
 
     //LEVEL STATES
@@ -21,10 +22,7 @@ public class GameManager : MonoBehaviour
     public bool isLevelRestarted = false;
     public bool isLevelCompleted = false;
     public bool isGameCompleted = false;
-
-    [SerializeField] private GameObject mobileControlsPrefab;
-    private GameObject mobileControlsInstance;
-
+    
     [Header("Configuració d'escenes")]
     [Tooltip("Noms exactes de les escenes que usen la música de menú")]
     public string[] menuSceneNames = { "Menu", "MainMenu" };
@@ -53,13 +51,7 @@ public class GameManager : MonoBehaviour
 
     private bool IsMobile()
     {
-#if UNITY_EDITOR
-        return false;
-#elif UNITY_ANDROID || UNITY_IOS
         return true;
-#else
-        return false;
-#endif
     }
 
     private void OnEnable()
@@ -104,12 +96,6 @@ public class GameManager : MonoBehaviour
     {
         if (!IsGameScene(SceneManager.GetActiveScene().name)) return;
 
-        if (playerPrefab == null)
-        {
-            Debug.LogError("[GameManager] playerPrefab no assignat al Inspector!");
-            return;
-        }
-
         GameObject wp = GameObject.FindGameObjectWithTag("StartWP");
         if (wp == null)
         {
@@ -117,8 +103,13 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Instantiate(playerPrefab, wp.transform.position, wp.transform.rotation);
-        Debug.Log("[GameManager] Player instanciat a: " + wp.transform.position);
+        if (playerPrefab != null)
+        {
+            player = playerPrefab;
+            player.transform.position = wp.transform.position;
+        }
+        else
+            Debug.Log("Error");
     }
 
     // ── Mobile Controls ──────────────────────────────────────────────
@@ -130,21 +121,10 @@ public class GameManager : MonoBehaviour
 
         if (isMobile && isGameScene)
         {
-            if (mobileControlsInstance == null)
+            GameObject go = GameObject.FindWithTag("Touch");
+            foreach (Transform child in go.transform)
             {
-                Canvas sceneCanvas = FindFirstObjectByType<Canvas>();
-                if (sceneCanvas != null)
-                {
-                    mobileControlsInstance = Instantiate(mobileControlsPrefab, sceneCanvas.transform);
-                }
-            }
-        }
-        else
-        {
-            if (mobileControlsInstance != null)
-            {
-                Destroy(mobileControlsInstance);
-                mobileControlsInstance = null;
+                child.transform.gameObject.SetActive(true);
             }
         }
     }
