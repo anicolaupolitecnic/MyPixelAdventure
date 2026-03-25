@@ -2079,7 +2079,6 @@ GameObject:
   - component: {fileID: 477430918}
   - component: {fileID: 477430920}
   - component: {fileID: 477430919}
-  - component: {fileID: 477430921}
   m_Layer: 6
   m_Name: Layer_3
   m_TagString: Untagged
@@ -2096,8 +2095,8 @@ Transform:
   m_GameObject: {fileID: 477430917}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.3, z: 0}
-  m_LocalScale: {x: 0.33709, y: 0.41714883, z: 0.33709}
+  m_LocalPosition: {x: 0, y: -4.92, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 362781433}
@@ -2116,7 +2115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b043bdc792ce4439671e54780d6d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxEffect: 0.4
+  parallaxEffect: 0.6
 --- !u!212 &477430920
 SpriteRenderer:
   serializedVersion: 2
@@ -2176,19 +2175,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &477430921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477430917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654b67b0c89803a47a95ecccd132f987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollowerY
-  offsetY: 0
 --- !u!1 &508565301
 GameObject:
   m_ObjectHideFlags: 0
@@ -3103,7 +3089,7 @@ Transform:
   m_GameObject: {fileID: 1009652267}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.8, y: -15.7, z: 0.02632568}
+  m_LocalPosition: {x: -4.9, y: 8.5, z: 0.02632568}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3266,7 +3252,6 @@ GameObject:
   - component: {fileID: 1237393218}
   - component: {fileID: 1237393220}
   - component: {fileID: 1237393219}
-  - component: {fileID: 1237393221}
   m_Layer: 6
   m_Name: Layer_1
   m_TagString: Untagged
@@ -3283,8 +3268,8 @@ Transform:
   m_GameObject: {fileID: 1237393217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.3, z: 0}
-  m_LocalScale: {x: 0.35476, y: 0.35476, z: 0.35476}
+  m_LocalPosition: {x: 0, y: -4.86, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2053778864}
@@ -3303,7 +3288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b043bdc792ce4439671e54780d6d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxEffect: 0.1
+  parallaxEffect: 0.2
 --- !u!212 &1237393220
 SpriteRenderer:
   serializedVersion: 2
@@ -3363,19 +3348,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1237393221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237393217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654b67b0c89803a47a95ecccd132f987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollowerY
-  offsetY: 0
 --- !u!1001 &1248104124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3681,7 +3653,6 @@ GameObject:
   - component: {fileID: 1578209603}
   - component: {fileID: 1578209605}
   - component: {fileID: 1578209604}
-  - component: {fileID: 1578209606}
   m_Layer: 6
   m_Name: Layer_2
   m_TagString: Untagged
@@ -3698,8 +3669,8 @@ Transform:
   m_GameObject: {fileID: 1578209602}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.4, z: 0}
-  m_LocalScale: {x: 0.38541853, y: 0.5106796, z: 0.38541853}
+  m_LocalPosition: {x: 0, y: -4.36, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 925930759}
@@ -3718,7 +3689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b043bdc792ce4439671e54780d6d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxEffect: 0.2
+  parallaxEffect: 0.4
 --- !u!212 &1578209605
 SpriteRenderer:
   serializedVersion: 2
@@ -3778,19 +3749,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1578209606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1578209602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654b67b0c89803a47a95ecccd132f987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollowerY
-  offsetY: 0
 --- !u!1001 &1596999552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52478,7 +52436,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 3.38, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1451785550}
