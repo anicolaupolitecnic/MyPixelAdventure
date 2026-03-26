@@ -1262,11 +1262,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 266155099517972257, guid: ba20c74471f595f44b12f254a199d8d7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.0297
+      value: 26.5
       objectReference: {fileID: 0}
     - target: {fileID: 266155099517972257, guid: ba20c74471f595f44b12f254a199d8d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.05
+      value: 7.85
       objectReference: {fileID: 0}
     - target: {fileID: 266155099517972257, guid: ba20c74471f595f44b12f254a199d8d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2505,7 +2505,7 @@ GameObject:
   - component: {fileID: 1009652268}
   m_Layer: 0
   m_Name: Start
-  m_TagString: Untagged
+  m_TagString: StartWP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2578,7 +2578,7 @@ Transform:
   m_GameObject: {fileID: 1009652267}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.188309, y: -7.6977787, z: 0.02632568}
+  m_LocalPosition: {x: 14.89, y: -4.56, z: 0.02632568}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

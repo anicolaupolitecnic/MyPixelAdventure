@@ -11,7 +11,9 @@ public class SoundManager : MonoBehaviour
     public AudioSource MusicSource;
 
     public AudioClip menuMusic;
-    public AudioClip gameMusic;
+    public AudioClip gameMusic_lvl1;
+    public AudioClip gameMusic_lvl2;
+    public AudioClip gameMusic_lvl3;
     public AudioClip jumpFX;
     public AudioClip collectedFX;
     public AudioClip finishedFX;
@@ -55,9 +57,12 @@ public class SoundManager : MonoBehaviour
     {
         if (System.Array.IndexOf(GameManager.Instance.menuSceneNames, sceneName) >= 0)
             PlayMusic(menuMusic);
-        else if (System.Array.IndexOf(GameManager.Instance.gameSceneNames, sceneName) >= 0)
-            PlayMusic(gameMusic);
-        // Si l'escena no coincideix amb cap llista, silenci
+        else if (System.Array.IndexOf(GameManager.Instance.gameSceneNames, sceneName) == 0)
+                PlayMusic(gameMusic_lvl1);
+        else if (System.Array.IndexOf(GameManager.Instance.gameSceneNames, sceneName) == 1)
+            PlayMusic(gameMusic_lvl2);
+        else if (System.Array.IndexOf(GameManager.Instance.gameSceneNames, sceneName) == 2)
+            PlayMusic(gameMusic_lvl3);
     }
 
     // ── API pública (igual que l'original) ───────────────────────────
@@ -95,11 +100,6 @@ public class SoundManager : MonoBehaviour
             _ => null
         };
         if (EffectsSource.clip != null) EffectsSource.Play();
-    }
-
-    public void PlayMusic(int i)
-    {
-        PlayMusic(i == 0 ? menuMusic : gameMusic);
     }
 
     public void StopMusic() => MusicSource.Stop();

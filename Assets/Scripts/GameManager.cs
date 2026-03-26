@@ -187,6 +187,16 @@ public class GameManager : MonoBehaviour
         {
             GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button);
             myButtonStyle.fontSize = 30;
+            myButtonStyle.alignment = TextAnchor.MiddleCenter;
+
+            // Fons base (necessari per poder tintar amb GUI.color)
+            myButtonStyle.normal.background = Texture2D.whiteTexture;
+            myButtonStyle.hover.background = Texture2D.whiteTexture;
+            myButtonStyle.active.background = Texture2D.whiteTexture;
+
+            myButtonStyle.normal.textColor = Color.gray;
+            myButtonStyle.hover.textColor = Color.red;
+
             if (GUI.Button(new Rect(Screen.width / 2 - Screen.width / 8, Screen.height / 2 - Screen.height / 8, Screen.width / 4, Screen.height / 4),
                 isGameCompleted ? "CONGRATULATIONS!!" : "GAMEOVER!!", myButtonStyle))
             {
